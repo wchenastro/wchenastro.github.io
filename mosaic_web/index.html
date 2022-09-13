@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+        <script src="ui.js"></script>
+        <link rel="stylesheet" href="style.css" />
+        <py-env>
+            - matplotlib
+            - ./mosaic-1.2.0-py3-none-any.whl
+            - paths:
+                - antenna.geo.csv
+        </py-env>
+    </head>
+    <body style='font-size: 20px;'>
+        <div id='main_container'>
+        <h1 id=header>Mosaic</h1>
+        <form id='parameters'>
+            <label for="Source">Source: </label>
+            <label for="RA"> RA </label> <input type="text" value='13:26:47.24' id="ra" class="numeric_medium" name="ra" required >
+            <label for="DEC"> DEC </label> <input type="text" value='-47:28:46.5' id="dec" class="numeric_medium" name="dec" required ><br>
+            <label for="datetime"> Timestamp: </label>
+            <input type="date" value='2022-08-15' id="date" name="date" required >
+            <input type="time" value='14:30:13.6' id="time" name="time" required >
+            <label for="frequency"> Frequency (Hz): </label>
+            <input type="text" value='1.284e9' id="frequency" class="numeric_medium" name="frequency" required ><br>
+            <label for="array"> Array: </label>
+            <button type="button" id="add_core_antennas_button" configuration='core'>Core</button>
+            <button type="button" id="add_full_antennas_button" configuration='full'>Full</button>
+            <button type="button" id="add_plus_antennas_button" configuration='plus' disabled>Plus</button><br>
+            <textarea id="array" name="array" rows="4" cols="70">
+            </textarea><br>
+            <input type="checkbox" id="psf_plot_checkbox" name="psf_plot">
+            <label for="psf_plot_checkbox"> PSF plot </label>
+            <input type="checkbox" id="psf_fits_checkbox" name="psf_fits">
+            <label for="psf_fits_checkbox"> Fits file </label>
+            <input type="checkbox" id="tiling_checkbox" name="tiling">
+            <label for="tiling_checkbox"> Tiling plot</label>
+            <input type="checkbox" id="region_checkbox" name="region">
+            <label for="region_checkbox"> Tiling region</label>
+            <input type="checkbox" id="show_logs" name="show_logs">
+            <label for="log_checkbox"> Logs </label> <br>
+
+            <label for="size"> Size: </label>
+            <input type="text" value='400' id="size" class="numeric" name="size">
+            <label for="resolution"> Resolution (arcsec): </label>
+            <input type="text" value='' id="resolution"  class="numeric" name="resolution" placeholder="auto">
+            <label for="beam_num"> Number of beams: </label>
+            <input type="text" value='400' id="beam_num" name="beam_num" class="numeric">
+            <label for="overlap" class="variable_size"> Overlap: </label>
+            <input type="text" value='0.5' id="overlap" class="numeric variable_size" name="overlap"> <br>
+            <label for="tiling_method"> Tiling method: </label>
+            <select name="tiling_method" id="tiling_method" value="variable_overlap">
+              <option value="variable_size">Variable size</option>
+              <option value="variable_overlap" selected>Variable overlap</option>
+            </select>
+            <label for="tiling_shape"> Tiling shape: </label>
+            <select name="tiling_shape" id="tiling_shape">
+              <option value="circle">Circle</option>
+              <option value="hexagon">Hexagon</option>
+              <option value="ellipse" class="variable_overlap">Elipse</option>
+              <option value="polygon" class="variable_overlap">Polygon</option>
+            </select>
+            <br>
+            <label for="tiling_parameter" class="variable_overlap"> Tiling parameter: </label>
+            <label for="radius" class="tiling_parameter circle"> radius </label>
+            <input type="text" value='0.1' id="radius" class="numeric tiling_parameter variable_overlap circle" name="radius">
+            <label for="circumradius" class="tiling_parameter hexagon"> circumradius </label>
+            <input type="text" value='0.1' id="circumradius" class="numeric tiling_parameter variable_overlap hexagon" name="circumradius">
+            <label for="hexagon_angle" class="tiling_parameter hexagon"> angle </label>
+            <input type="text" value='0' id="hexagon_angle" class="numeric tiling_parameter variable_overlap hexagon" name="hexagon_angle">
+            <label for="semi_axis1" class="tiling_parameter ellipse"> semi_axi1 </label>
+            <input type="text" value='0.1' id="semi_axis1" class="numeric tiling_parameter variable_overlap ellipse" name="semi_axis1">
+            <label for="semi_axis2" class="tiling_parameter ellipse"> semi_axi2 </label>
+            <input type="text" value='0.2' id="semi_axis2" class="numeric tiling_parameter variable_overlap ellipse" name="semi_axis2">
+            <label for="ellipse_angle" class="tiling_parameter ellipse"> angle </label>
+            <input type="text" value='30' id="ellipse_angle" class="numeric tiling_parameter variable_overlap ellipse" name="ellipse_angle">
+            <label for="vertices" class="tiling_parameter polygon"> vertices </label>
+            <input type="text" value='13:25:47.24, -47:28:46.5, 13:27:47.24, -47:28:46.5, 13:27:47.24, -47:01:46.5, 13:24:47.24, -47:01:46.5' id="vertices" class="tiling_parameter variable_overlap polygon" name="vertices">
+            <label for="coordinate_type" class="tiling_parameter"> Coordinate type: </label>
+            <select name="coordinate_type" id="coordinate_type" class='variable_overlap tiling_parameter'>
+              <option value="equatorial">Equatorial</option>
+              <option value="galactic">Galactic</option>
+            </select>
+
+            <label for="point_sources" class="variable_overlap"> Point souces: </label>
+            <button type="button" id="add_point_sources_button" class="">+</button>
+            <textarea id="point_sources" class="variable_overlap" name="point_sources" rows="4" cols="70">
+            # rows start with '#' are ignored
+            # please put a space between columns
+            # Identifier RA DEC
+            # A 13:26:39.670 -47:30:11.64
+            # B 13:26:49.563 -47:29:24.62
+            </textarea>
+
+            <br>
+            <button type="button" id="run_button">Loading</button>
+
+        </form>
+
+    <div id='info'></div>
+    <div id='log_container'>
+    <div id='logs'>
+
+    <div id='log_start'>The log starts here.</div>
+
+    </div>
+
+    <div id=psf_plot></div>
+    <div id=psf_fits></div>
+    <div id=tiling_plot></div>
+    <div id=tiling_region></div>
+    </div>
+
+    <py-script src="./mosaic_web.py"></py-script>
+    <!-- <py-script src="./ui.py"></py-script> -->
+    <hr id='bottom_line'>
+    <a href="https://github.com/wchenastro/wchenastro.github.io/tree/main/mosaic_web" class='bottom_link' id='github'>Github</a>
+    <a href="#" class='bottom_link' id='contact'>Contact</a>
+    </body>
+</html>

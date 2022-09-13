@@ -1,0 +1,101 @@
+
+#header {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 0 35px 0;
+}
+
+#main_container {
+    margin: auto;
+    width: 60%;
+}
+
+#psf_plot img{
+
+	width: 500px;
+	height:auto;
+}
+#tiling_plot img{
+
+	width: 500px;
+	height:auto;
+}
+
+#array textarea {
+
+}
+
+#logs {
+    font-family: monospace;
+    font-size: 0.8em;
+    display: none;
+    height: 250px;
+    overflow-y: scroll;
+}
+
+#point_sources {
+    display: none;
+}
+
+.log_entry {
+    margin-top: 20px;
+}
+
+#log_tooggle {
+    margin: auto;
+    width: 100%;
+}
+
+.bottom_link {
+    margin-right: 3px;
+}
+
+a.bottom_link:visited, a.bottom_link:link {
+    all:unset;
+    text-decoration: none;
+}
+
+a.bottom_link:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.numeric {
+    width: 5%;
+}
+
+.numeric_medium {
+    width: 10%;
+}
+
+.tiling_parameter {
+    display: none;
+}
+
+.variable_size {
+    display: none;
+}
+
+@media (prefers-color-scheme: light) {
+	body {
+		background-color: #f5f5f5;
+		color: #222;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #222;
+		color: #fff;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+    #main_container {
+        width: 90%;
+}
+
+
+}
