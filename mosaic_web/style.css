@@ -1,3 +1,10 @@
+html {
+  max-width: 70ch;
+  padding: 3em 1em;
+  margin: auto;
+  line-height: 1.75;
+  font-size: 1.25em;
+}
 
 #header {
     text-transform: uppercase;
@@ -8,7 +15,7 @@
 
 #main_container {
     margin: auto;
-    width: 60%;
+    /* width: 60%; */
 }
 
 #psf_plot img{
@@ -22,8 +29,19 @@
 	height:auto;
 }
 
-#array textarea {
+.textarea_container {
+  max-width: 70ch;
+  padding: 0em 0.5em 0 0em;
+  margin: auto;
 
+}
+
+.auto_resize_textarea {
+    float: left;
+    width: 100%;
+    outline: none;
+    resize: none;
+    border: 1px solid grey;
 }
 
 #logs {

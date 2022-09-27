@@ -27,8 +27,10 @@
             <button type="button" id="add_core_antennas_button" configuration='core'>Core</button>
             <button type="button" id="add_full_antennas_button" configuration='full'>Full</button>
             <button type="button" id="add_plus_antennas_button" configuration='plus' disabled>Plus</button><br>
-            <textarea id="array" name="array" rows="4" cols="70">
-            </textarea><br>
+            <div class="textarea_container">
+            <textarea id="array" class="auto_resize_textarea" name="array" rows="4">
+            </textarea>
+            </div><br><br>
             <input type="checkbox" id="psf_plot_checkbox" name="psf_plot">
             <label for="psf_plot_checkbox"> PSF plot </label>
             <input type="checkbox" id="psf_fits_checkbox" name="psf_fits">
@@ -84,15 +86,15 @@
 
             <label for="point_sources" class="variable_overlap"> Point souces: </label>
             <button type="button" id="add_point_sources_button" class="">+</button>
-            <textarea id="point_sources" class="" name="point_sources" rows="4" cols="70">
+            <div class="textarea_container">
+            <textarea id="point_sources" class="auto_resize_textarea" name="point_sources" rows="4">
             # rows start with '#' are ignored
             # please put a space between columns
             # Identifier RA DEC
             # A 13:26:39.670 -47:30:11.64
             # B 13:26:49.563 -47:29:24.62
             </textarea>
-
-            <br>
+            </div>
             <button type="button" id="run_button">Loading</button>
 
         </form>
