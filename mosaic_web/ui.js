@@ -31,14 +31,6 @@ function add_point_sources_button_handler(event) {
 
 
 function log_toggle_handler(event) {
-    /*
-    const log_panel = document.getElementById('logs');
-    if (log_panel.style.display == 'block') {
-        log_panel.style.display = 'none';
-    } else {
-        log_panel.style.display = 'block';
-    }
-    */
     const log_panel = document.getElementById('logs');
     const is_checked = event.target.checked;
     if (is_checked) {
@@ -86,6 +78,7 @@ function select_tiling_mode(method) {
 
     const elements_vo = document.getElementsByClassName('variable_overlap');
     const elements_vs = document.getElementsByClassName('variable_size');
+    const tiling_shape_selector = document.getElementById('tiling_shape');
 	//const overlap_input = document.getElementById('overlap');
     if (method == 'variable_size') {
 		//overlap_input.disabled = false;
@@ -95,6 +88,13 @@ function select_tiling_mode(method) {
         for (let i=0; i<elements_vs.length; i++) {
             elements_vs[i].style.display = 'inline';
         }
+        if (tiling_shape_selector.value != 'circle' ||
+            tiling_shape_selector.value != 'hexagon') {
+            tiling_shape_selector.value = 'circle';
+            hide_tiling_parameters();
+            select_tiling_shape('circle');
+        }
+
 
     } else if (method == 'variable_overlap') {
 		//overlap_input.disabled = true;
@@ -104,7 +104,7 @@ function select_tiling_mode(method) {
         for (let i=0; i<elements_vs.length; i++) {
             elements_vs[i].style.display = 'none';
         }
-
+        select_tiling_shape(tiling_shape_selector.value);
     }
 
 }
@@ -116,9 +116,14 @@ function select_tiling_shape(shape) {
         shape = tiling_shape_selector.value;
     }
 
-    const elements = document.getElementsByClassName(shape);
-    for (let i=0; i<elements.length; i++) {
-        elements[i].style.display = "inline-block";
+    const tiling_method_selector = document.getElementById('tiling_method');
+    if (tiling_method_selector.value == 'variable_size') {
+        hide_tiling_parameters();
+    } else {
+        const elements = document.getElementsByClassName(shape);
+        for (let i=0; i<elements.length; i++) {
+            elements[i].style.display = "inline-block";
+        }
     }
 
 }

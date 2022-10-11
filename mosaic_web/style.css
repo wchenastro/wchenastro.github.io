@@ -1,5 +1,5 @@
 html {
-  max-width: 70ch;
+  max-width: 80ch;
   padding: 3em 1em;
   margin: auto;
   line-height: 1.75;
@@ -23,6 +23,7 @@ html {
 	width: 500px;
 	height:auto;
 }
+
 #tiling_plot img{
 
 	width: 500px;
@@ -30,7 +31,7 @@ html {
 }
 
 .textarea_container {
-  max-width: 70ch;
+  max-width: 75ch;
   padding: 0em 0.5em 0 0em;
   margin: auto;
 
@@ -78,6 +79,10 @@ a.bottom_link:hover {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.pyscript {
+    display: none;
 }
 
 .numeric {

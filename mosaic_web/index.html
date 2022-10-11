@@ -15,41 +15,35 @@
         <div id='main_container'>
         <h1 id=header>Mosaic</h1>
         <form id='parameters'>
+            <fieldset>
+            <legend>Observation</legend>
             <label for="Source">Source: </label>
             <label for="RA"> RA </label> <input type="text" value='13:26:47.24' id="ra" class="numeric_medium" name="ra" required >
-            <label for="DEC"> DEC </label> <input type="text" value='-47:28:46.5' id="dec" class="numeric_medium" name="dec" required ><br>
+            <label for="DEC"> DEC </label> <input type="text" value='-47:28:46.5' id="dec" class="numeric_medium" name="dec" required >
             <label for="datetime"> Timestamp: </label>
             <input type="date" value='2022-08-15' id="date" name="date" required >
             <input type="time" value='14:30:13.6' id="time" name="time" required >
-            <label for="frequency"> Frequency (Hz): </label>
-            <input type="text" value='1.284e9' id="frequency" class="numeric_medium" name="frequency" required ><br>
+            <br>
             <label for="array"> Array: </label>
             <button type="button" id="add_core_antennas_button" configuration='core'>Core</button>
             <button type="button" id="add_full_antennas_button" configuration='full'>Full</button>
             <button type="button" id="add_plus_antennas_button" configuration='plus' disabled>Plus</button><br>
             <div class="textarea_container">
-            <textarea id="array" class="auto_resize_textarea" name="array" rows="4">
+            <textarea id="array" class="auto_resize_textarea" name="array" rows="3">
             </textarea>
-            </div><br><br>
-            <input type="checkbox" id="psf_plot_checkbox" name="psf_plot">
-            <label for="psf_plot_checkbox"> PSF plot </label>
-            <input type="checkbox" id="psf_fits_checkbox" name="psf_fits">
-            <label for="psf_fits_checkbox"> Fits file </label>
-            <input type="checkbox" id="tiling_checkbox" name="tiling">
-            <label for="tiling_checkbox"> Tiling plot</label>
-            <input type="checkbox" id="region_checkbox" name="region">
-            <label for="region_checkbox"> Tiling region</label>
-            <input type="checkbox" id="show_logs" name="show_logs">
-            <label for="log_checkbox"> Logs </label> <br>
-
+            </div>
+            </fieldset>
+            <fieldset>
+            <legend>Point spread function</legend>
+            <label for="frequency"> Frequency (Hz): </label>
+            <input type="text" value='1.284e9' id="frequency" class="numeric_medium" name="frequency" required >
             <label for="size"> Size: </label>
             <input type="text" value='400' id="size" class="numeric" name="size">
             <label for="resolution"> Resolution (arcsec): </label>
             <input type="text" value='' id="resolution"  class="numeric" name="resolution" placeholder="auto">
-            <label for="beam_num"> Number of beams: </label>
-            <input type="text" value='400' id="beam_num" name="beam_num" class="numeric">
-            <label for="overlap" class="variable_size"> Overlap: </label>
-            <input type="text" value='0.5' id="overlap" class="numeric variable_size" name="overlap"> <br>
+            </fieldset>
+            <fieldset>
+            <legend>Tiling</legend>
             <label for="tiling_method"> Tiling method: </label>
             <select name="tiling_method" id="tiling_method" value="variable_overlap">
               <option value="variable_size">Variable size</option>
@@ -62,17 +56,19 @@
               <option value="ellipse" class="variable_overlap">Elipse</option>
               <option value="polygon" class="variable_overlap">Polygon</option>
             </select>
+            <label for="beam_num"> Number of beams: </label>
+            <input type="text" value='400' id="beam_num" name="beam_num" class="numeric">
             <br>
             <label for="tiling_parameter" class="variable_overlap"> Tiling parameter: </label>
-            <label for="radius" class="tiling_parameter circle"> radius </label>
+            <label for="radius" class="tiling_parameter circle"> radius (degree) </label>
             <input type="text" value='0.1' id="radius" class="numeric tiling_parameter variable_overlap circle" name="radius">
             <label for="circumradius" class="tiling_parameter hexagon"> circumradius </label>
             <input type="text" value='0.1' id="circumradius" class="numeric tiling_parameter variable_overlap hexagon" name="circumradius">
             <label for="hexagon_angle" class="tiling_parameter hexagon"> angle </label>
             <input type="text" value='0' id="hexagon_angle" class="numeric tiling_parameter variable_overlap hexagon" name="hexagon_angle">
-            <label for="semi_axis1" class="tiling_parameter ellipse"> semi_axi1 </label>
+            <label for="semi_axis1" class="tiling_parameter ellipse"> semi_axis1 </label>
             <input type="text" value='0.1' id="semi_axis1" class="numeric tiling_parameter variable_overlap ellipse" name="semi_axis1">
-            <label for="semi_axis2" class="tiling_parameter ellipse"> semi_axi2 </label>
+            <label for="semi_axis2" class="tiling_parameter ellipse"> semi_axis2 </label>
             <input type="text" value='0.2' id="semi_axis2" class="numeric tiling_parameter variable_overlap ellipse" name="semi_axis2">
             <label for="ellipse_angle" class="tiling_parameter ellipse"> angle </label>
             <input type="text" value='30' id="ellipse_angle" class="numeric tiling_parameter variable_overlap ellipse" name="ellipse_angle">
@@ -83,7 +79,8 @@
               <option value="equatorial">Equatorial</option>
               <option value="galactic">Galactic</option>
             </select>
-
+            <label for="overlap" class="variable_size"> Overlap: </label>
+            <input type="text" value='0.5' id="overlap" class="numeric variable_size" name="overlap">
             <label for="point_sources" class="variable_overlap"> Point souces: </label>
             <button type="button" id="add_point_sources_button" class="">+</button>
             <div class="textarea_container">
@@ -95,16 +92,29 @@
             # B 13:26:49.563 -47:29:24.62
             </textarea>
             </div>
+            </fieldset>
+            <fieldset>
+            <legend>Output</legend>
+            <input type="checkbox" id="psf_plot_checkbox" name="psf_plot">
+            <label for="psf_plot_checkbox">
+            <abbr title="Point Spread Function">PSF</abbr> plot </label>
+            <input type="checkbox" id="psf_fits_checkbox" name="psf_fits">
+            <label for="psf_fits_checkbox"> Fits file </label>
+            <input type="checkbox" id="tiling_checkbox" name="tiling">
+            <label for="tiling_checkbox"> Tiling plot</label>
+            <input type="checkbox" id="region_checkbox" name="region">
+            <label for="region_checkbox"> Tiling region</label>
+            <input type="checkbox" id="show_logs" name="show_logs">
+            <label for="log_checkbox"> Logs </label>
+            </fieldset>
             <button type="button" id="run_button">Loading</button>
-
         </form>
 
     <div id='info'></div>
     <div id='log_container'>
-    <div id='logs'>
-
-    <div id='log_start'>The log starts here.</div>
-
+        <div id='logs'>
+            <div id='log_start'>The log starts here.</div>
+        </div>
     </div>
 
     <div id=psf_plot></div>
@@ -113,7 +123,7 @@
     <div id=tiling_region></div>
     </div>
 
-    <py-script src="./mosaic_web.py"></py-script>
+    <py-script class="pyscript" src="./mosaic_web.py"></py-script>
     <!-- <py-script src="./ui.py"></py-script> -->
     <hr id='bottom_line'>
     <a href="https://github.com/wchenastro/wchenastro.github.io/tree/main/mosaic_web" class='bottom_link' id='github'>Github</a>
