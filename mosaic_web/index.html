@@ -4,14 +4,13 @@
         <script defer src="https://pyscript.net/latest/pyscript.js"></script>
         <script src="ui.js"></script>
         <link rel="stylesheet" href="style.css" />
-        <py-env>
-            - matplotlib
-            - ./mosaic-1.2.0-py3-none-any.whl
-            - paths:
-                - antenna.geo.csv
-        </py-env>
     </head>
     <body style='font-size: 20px;'>
+        <py-config class="client_py-config">
+            packages = ["./mosaic-1.2.0-py3-none-any.whl"]
+            [[fetch]]
+            files = ['antenna.geo.csv']
+        </py-config>
         <div id='main_container'>
         <h1 id=header>Mosaic</h1>
         <form id='parameters'>

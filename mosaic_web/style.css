@@ -84,6 +84,12 @@ a.bottom_link:hover {
 .pyscript {
     display: none;
 }
+.client_py-config {
+    display: none;
+}
+.py-terminal {
+    display: none;
+}
 
 .numeric {
     width: 5%;
