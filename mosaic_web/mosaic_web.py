@@ -8,7 +8,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from js import document, URL, File, Uint8Array, Blob, btoa, encodeURIComponent, unescape
-from pyodide import create_proxy
+from pyodide.ffi import create_proxy
 
 from mosaic.beamforming import PsfSim, generate_nbeams_tiling
 from mosaic.coordinate import convert_sexagesimal_to_degree, createTilingRegion, readPolygonRegion, convert_equatorial_coordinate_to_pixel
