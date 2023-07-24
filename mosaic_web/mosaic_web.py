@@ -16,7 +16,7 @@ from mosaic.plot import plot_overlap, plot_interferometry
 from mosaic import __version__
 
 log_stream = io.StringIO()
-loggerFormatString = '%(asctime)-15s %(filename)s  %(message)s'
+loggerFormatString = '%(levelname)s - %(asctime)-15s - %(name)s - %(message)s'
 loggerFormat = logging.Formatter(loggerFormatString)
 logger = logging.getLogger('mosaic')
 stream_handler = logging.StreamHandler(log_stream)
