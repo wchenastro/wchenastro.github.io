@@ -23,10 +23,22 @@
             <input type="date" value='2022-08-15' id="date" name="date" required >
             <input type="time" value='14:30:13.6' id="time" name="time" required >
             <br>
-            <label for="array"> Array: </label>
-            <button type="button" id="add_core_antennas_button" configuration='core'>Core</button>
-            <button type="button" id="add_full_antennas_button" configuration='full'>Full</button>
-            <button type="button" id="add_plus_antennas_button" configuration='plus' disabled>Plus</button><br>
+            <label for="array_selection"> Array: </label>
+            <select name="array_selection" id="array_selection" value="meerkat">
+              <option value="meerkat" selected>MeerKAT</option>
+              <option value="custom">Custom</option>
+            </select>
+
+            <button type="button" id="add_core_antennas_button" class="meerkat_array array_option" configuration='core'>Core</button>
+            <button type="button" id="add_full_antennas_button" class="meerkat_array array_option" configuration='full'>Full</button>
+            <button type="button" id="add_plus_antennas_button" class="meerkat_array array_option" configuration='plus' disabled>Plus</button>
+            <button type="button" id="add_custom_example_antennas_button" class="custom_array array_option" configuration='custom_example' >example</button>
+            <!-- <label for="Source" class="custom_array array_option">Reference: </label> -->
+            <!-- <label for="LON" class="custom_array array_option"> LON </label> -->
+            <!-- <input type="text" value='25.072582287176957' id="lon" class="numeric_medium custom_array array_option" name="LON"> -->
+            <!-- <label for="LAT" class="custom_array array_option"> LAT </label> <input type="text" value='35.30519529819537' id="lat" class="numeric_medium custom_array array_option" name="LAT"> -->
+            <!-- <label for="Height" class="custom_array array_option"> Height (m) </label> <input type="text" value='1.0' id="height" class="numeric_medium custom_array array_option" name="Height"> -->
+            <br />
             <div class="textarea_container">
             <textarea id="array" class="auto_resize_textarea" name="array" rows="3">
             </textarea>

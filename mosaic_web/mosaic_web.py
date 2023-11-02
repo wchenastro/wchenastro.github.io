@@ -26,6 +26,7 @@ logger.setLevel(logging.INFO)
 
 def get_parameters():
     parameters = {}
+    parameters['array_name'] = Element("array_selection").value
     parameters['frequency'] = Element("frequency").value
     parameters['ra'] = Element("ra").value
     parameters['dec'] = Element("dec").value
@@ -69,7 +70,16 @@ def get_parameters():
 
 
 
-    parameters['array'] = np.int32(parameters['array'].split(","))
+    if parameters['array_name'] == 'meerkat':
+        parameters['array'] = np.int32(parameters['array'].split(","))
+    elif parameters['array_name'] == 'custom':
+        coordinate_1d = np.fromstring(
+                parameters['array'].replace("\n", ' '), dtype=float, sep=' ')
+        coordinate_2d = coordinate_1d.reshape(-1, 3)
+        parameters['array'] = coordinate_2d
+        # parameters['reference'] = (
+                # float(Element('lon').value),
+                # float(Element('lat').value), float(Element('height').value))
     parameters['source'] = (parameters['ra'],  parameters['dec'])
     parameters['datetime'] = datetime.datetime.strptime(parameters['date'] + " "
                 + parameters['time'], '%Y-%m-%d %H:%M:%S.%f')
@@ -236,8 +246,13 @@ async def run_mosaic():
     else:
         information_board.element.innerHTML = ''
 
-    full_antenna_geo = np.loadtxt('antenna.geo.csv')
-    antenna_geo = [full_antenna_geo[ant] for ant in parameters['array']]
+    if parameters['array_name'] == 'meerkat':
+        full_antenna_geo = np.loadtxt('antenna.geo.csv')
+        antenna_geo = [full_antenna_geo[ant] for ant in parameters['array']]
+    elif parameters['array_name'] == 'custom':
+        # reference = parameters['reference']
+        antenna_geo = [ant for ant in parameters['array']]
+        # psf = PsfSim(antenna_geo, float(parameters['frequency']), reference)
     psf = PsfSim(antenna_geo, float(parameters['frequency']))
     beam_shape = psf.get_beam_shape(parameters['source'], parameters['datetime'],
         parameters['size'], parameters['resolution'], None)

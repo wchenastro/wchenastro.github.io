@@ -1,7 +1,9 @@
 
 full_antennas = '000,001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,017,018,019,020,021,022,023,024,025,026,027,028,029,030,031,032,033,034,035,036,037,038,039,040,041,042,043,044,045,046,047,048,049,050,051,052,053,054,055,056,057,058,059,060,061,062,063'
 
-core_antennas = '000,001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 047'
+core_antennas = '000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 047'
+
+custom_array = '-3.071292503257382123e+01 2.144380273446495266e+01 1.036212387158950833e+03\n-3.071260461273949005e+01 2.144390065758215869e+01 1.036058822009279311e+03\n-3.071307785140169244e+01 2.144355378481279217e+01 1.036258538027287159e+03\n-3.071287979381557420e+01 2.144319463837578965e+01 1.035892066584594204e+03'
 
 function add_antennas_button_handler(event) {
     const configuration = event.target.getAttribute("configuration");
@@ -14,6 +16,8 @@ function add_antennas(configuration) {
         array_input.value = full_antennas;
     } else if (configuration == 'core') {
         array_input.value = core_antennas;
+    } else if (configuration == 'custom_example') {
+        array_input.value = custom_array;
     }
 }
 
@@ -46,6 +50,12 @@ function hide_tiling_parameters() {
     for (let i=0; i<elements_tp.length; i++) {
         elements_tp[i].style.display = 'none';
     }
+}
+
+function array_selection_handler(event) {
+    const array_selected = event.target.value;
+    select_array(array_selected);
+
 }
 
 function tiling_method_handler(event) {
@@ -109,6 +119,30 @@ function select_tiling_mode(method) {
 
 }
 
+
+function select_array(array_selected) {
+    if ( array_selected == undefined) {
+        const selection = document.getElementById("array_selection").value;
+        if (selection == undefined)
+            array_selected = 'meerkat';
+        else
+            array_selected = selection;
+    }
+    const elements = document.getElementsByClassName("array_option");
+    for (let i=0; i<elements.length; i++) {
+        elements[i].style.display = "none";
+    }
+
+    const selected = document.getElementsByClassName(array_selected + "_array");
+    // if (selected.length > 0) {
+        // console.log("show " + array_selected + " options");
+    // }
+    for (let i=0; i<selected.length; i++) {
+        selected[i].style.display = "inline-block";
+    }
+
+}
+
 function select_tiling_shape(shape) {
 
     if (shape == undefined) {
@@ -135,22 +169,27 @@ function connect_events() {
     tiling_shape_selector.addEventListener('change', tiling_shape_handler);
     add_core_antennas_button = document.getElementById('add_core_antennas_button');
     add_full_antennas_button = document.getElementById('add_full_antennas_button');
+    add_custom_example_antennas_button = document.getElementById(
+            'add_custom_example_antennas_button');
     add_core_antennas_button.addEventListener('click', add_antennas_button_handler);
     add_full_antennas_button.addEventListener('click', add_antennas_button_handler);
+    add_custom_example_antennas_button.addEventListener('click', add_antennas_button_handler);
     const add_point_sources_button = document.getElementById('add_point_sources_button');
     add_point_sources_button.addEventListener('click', add_point_sources_button_handler);
     const log_toggle = document.getElementById('show_logs');
     log_toggle.addEventListener('click', log_toggle_handler);
     const contact_link = document.getElementById('contact');
+    const array_selection = document.getElementById('array_selection');
+    array_selection.addEventListener('change', array_selection_handler);
     contact_link.addEventListener('click', contact_handler);
-    console.log('connected');
 }
 
 
 function initialization() {
     document.body.style.cursor = 'wait';
     connect_events();
-    add_antennas();
+    //add_antennas();
+    select_array(undefined);
     select_tiling_mode(undefined);
     select_tiling_shape(undefined);
 }
