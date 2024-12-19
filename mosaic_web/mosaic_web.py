@@ -5,10 +5,13 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord
 
 import numpy as np
-from matplotlib import pyplot as plt
 
 from js import document, URL, File, Uint8Array, Blob, btoa, encodeURIComponent, unescape
 from pyodide.ffi import create_proxy
+import pyscript
+from pyscript import display
+import matplotlib
+matplotlib.use('SVG')
 
 from mosaic.beamforming import PsfSim, generate_nbeams_tiling
 from mosaic.coordinate import convert_sexagesimal_to_degree, createTilingRegion, readPolygonRegion, convert_equatorial_coordinate_to_pixel
@@ -23,6 +26,12 @@ stream_handler = logging.StreamHandler(log_stream)
 stream_handler.setFormatter(loggerFormat)
 logger.addHandler(stream_handler)
 logger.setLevel(logging.INFO)
+
+def Element(element_id):
+    """
+    emunuate the old Element() function
+    """
+    return pyscript.document.getElementById(element_id)
 
 def get_parameters():
     parameters = {}
@@ -99,22 +108,22 @@ def get_parameters():
     else:
         parameters['point_sources'] = None
 
-    if Element("psf_fits_checkbox").element.checked:
+    if Element("psf_fits_checkbox").checked:
         parameters['psf_fits'] = True
     else:
         parameters['psf_fits'] = False
 
-    if Element("psf_plot_checkbox").element.checked:
+    if Element("psf_plot_checkbox").checked:
         parameters['psf_plot'] = True
     else:
         parameters['psf_plot'] = False
 
-    if Element("tiling_checkbox").element.checked:
+    if Element("tiling_checkbox").checked:
         parameters['tiling_plot'] = True
     else:
         parameters['tiling_plot'] = False
 
-    if Element("region_checkbox").element.checked:
+    if Element("region_checkbox").checked:
         parameters['tiling_region'] = True
     else:
         parameters['tiling_region'] = False
@@ -162,10 +171,6 @@ def create_plot(plot_buffer, container_id):
         plot_tag.src = URL.createObjectURL(plot_file)
     else:
         plot_content = plot_buffer.getvalue()
-        """
-        match_content = re.search(r'<svg.+<\/svg>', plot_content, re.S)
-        plot_content = match_content.group(0)
-        """
         base64_plot = "data:image/svg+xml;base64," + btoa(
                 unescape(encodeURIComponent(plot_content)))
         plot_tag.src = base64_plot
@@ -241,10 +246,10 @@ async def run_mosaic():
             parameters['psf_fits'] or
             parameters['tiling_plot'] or
             parameters['tiling_region']):
-        information_board.element.innerHTML = 'Please select an output above!'
+        information_board.innerHTML = 'Please select an output above!'
         return
     else:
-        information_board.element.innerHTML = ''
+        information_board.innerHTML = ''
 
     if parameters['array_name'] == 'meerkat':
         full_antenna_geo = np.loadtxt('antenna.geo.csv')
