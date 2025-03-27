@@ -14,7 +14,9 @@ import matplotlib
 matplotlib.use('SVG')
 
 from mosaic.beamforming import PsfSim, generate_nbeams_tiling
-from mosaic.coordinate import convert_sexagesimal_to_degree, createTilingRegion, readPolygonRegion, convert_equatorial_coordinate_to_pixel
+from mosaic.coordinate import convert_sexagesimal_to_degree, Antenna
+from mosaic.coordinate import createTilingRegion, readPolygonRegion
+from mosaic.coordinate import convert_equatorial_coordinate_to_pixel
 from mosaic.plot import plot_overlap, plot_interferometry
 from mosaic import __version__
 
@@ -253,7 +255,10 @@ async def run_mosaic():
 
     if parameters['array_name'] == 'meerkat':
         full_antenna_geo = np.loadtxt('antenna.geo.csv')
-        antenna_geo = [full_antenna_geo[ant] for ant in parameters['array']]
+        antenna_geo = []
+        for ant_idx in parameters['array']:
+            antenna_geo.append(Antenna(f"{ant_idx:03d}", full_antenna_geo[ant_idx]))
+        #  antenna_geo = [full_antenna_geo[ant] for ant in parameters['array']]
     elif parameters['array_name'] == 'custom':
         # reference = parameters['reference']
         antenna_geo = [ant for ant in parameters['array']]
